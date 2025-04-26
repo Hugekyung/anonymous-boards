@@ -7,10 +7,11 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { Comment } from '../comment/comment.entity';
+import { Comment } from '../../comment/comment.entity';
+import { IBoard } from '../interfaces/board.interface';
 
 @Entity({ name: 'Boards' })
-export class Board {
+export class Board implements IBoard {
     @PrimaryGeneratedColumn()
     id: number;
 

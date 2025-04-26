@@ -7,7 +7,7 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Board } from '../board/board.entity';
+import { Board } from '../board/entities/board.entity';
 
 @Entity({ name: 'Comments' })
 export class Comment {
