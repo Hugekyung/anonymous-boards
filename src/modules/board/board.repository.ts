@@ -40,11 +40,20 @@ export class BoardRepository {
     async findOneById(boardId: number): Promise<IBoard | null> {
         return await this.boardRepository
             .createQueryBuilder()
-            .where('id = :id', { id: boardId })
+            .where('id = :boardId', { boardId })
             .getOne();
     }
 
     async save(board: IBoard): Promise<void> {
         await this.boardRepository.save(board);
+    }
+
+    async softDelete(boardId: number): Promise<void> {
+        await this.boardRepository
+            .createQueryBuilder()
+            .softDelete()
+            .where('id = :boardId', { boardId })
+            .execute();
+        return;
     }
 }
