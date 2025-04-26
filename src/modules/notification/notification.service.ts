@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IKeywordNotification } from './interfaces/keyword-notification.interface';
 import { NotificationRepository } from './notification.repository';
 
 @Injectable()
@@ -8,7 +9,8 @@ export class NotificationService {
     ) {}
 
     async notifyIfMatched(text: string): Promise<void> {
-        const matched = await this.notificationRepository.findManyInText(text);
+        const matched: IKeywordNotification[] =
+            await this.notificationRepository.findManyInText(text);
         if (matched.length > 0) {
             for (const { authorName, keyword } of matched) {
                 this.send(authorName);
@@ -17,6 +19,8 @@ export class NotificationService {
                 );
             }
         }
+
+        return;
     }
 
     private send(recipient: string): string {
