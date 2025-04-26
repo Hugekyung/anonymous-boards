@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GenDigestPwd } from 'src/common/utils/crypto.utils';
-import { CreateBoardDto } from '../dtos/create-board.dto';
+import { CreateBoardDto } from '../dtos/req/create-board.req.dto';
 import { IBoard } from '../interfaces/board.interface';
 import { BoardRepository } from '../repositories/board.repository';
 

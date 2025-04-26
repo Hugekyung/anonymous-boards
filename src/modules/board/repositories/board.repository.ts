@@ -1,7 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBoardDto } from '../dtos/create-board.dto';
-import { GetBoardListDto } from '../dtos/get-board-list.dto';
+import { CreateBoardDto } from '../dtos/req/create-board.req.dto';
+import { GetBoardListDto } from '../dtos/req/get-board-list.req.dto';
 import { Board } from '../entities/board.entity';
 import { IBoard } from '../interfaces/board.interface';
 
@@ -37,7 +37,7 @@ export class BoardRepository {
             .getManyAndCount();
     }
 
-    async save(board: IBoard): Promise<IBoard> {
-        return await this.boardRepository.save(board);
+    async save(board: IBoard): Promise<void> {
+        await this.boardRepository.save(board);
     }
 }

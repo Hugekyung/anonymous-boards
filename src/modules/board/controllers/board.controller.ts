@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateBoardDto } from '../dtos/create-board.dto';
-import { GetBoardListDto } from '../dtos/get-board-list.dto';
-import { IBoard } from '../interfaces/board.interface';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiResponseDto } from 'src/common/dto/api-response.dto';
+import { CreateBoardDto } from '../dtos/req/create-board.req.dto';
+import { GetBoardListDto } from '../dtos/req/get-board-list.req.dto';
+import { UpdateBoardDto } from '../dtos/req/update-board.req.dto';
+import { GetBoardListResDto } from '../dtos/res/get-board-list.res.dto';
 import { BoardService } from '../services/board.service';
 
 @Controller('board')
@@ -9,14 +11,28 @@ export class BoardController {
     constructor(private readonly boardService: BoardService) {}
 
     @Post()
-    async createBoard(@Body() createBoardDto: CreateBoardDto): Promise<IBoard> {
-        return await this.boardService.createBoard(createBoardDto);
+    async createBoard(
+        @Body() createBoardDto: CreateBoardDto,
+    ): Promise<ApiResponseDto<void>> {
+        return ApiResponseDto.ok(
+            await this.boardService.createBoard(createBoardDto),
+        );
     }
 
     @Get()
     async getBoards(
         @Body() getBoardListDto: GetBoardListDto,
-    ): Promise<[IBoard[], number]> {
-        return await this.boardService.getBoards(getBoardListDto);
+    ): Promise<ApiResponseDto<GetBoardListResDto>> {
+        return ApiResponseDto.ok(
+            await this.boardService.getBoards(getBoardListDto),
+        );
+    }
+
+    @Patch(':boardId')
+    async updateBoard(
+        @Param('boardId') boardId: number,
+        @Body() updateBoardDto: UpdateBoardDto,
+    ) {
+        return await this.boardService.updateBoard(boardId, updateBoardDto);
     }
 }
