@@ -5,7 +5,7 @@ export interface IComment {
     content: string;
     authorName: string;
     createdAt: Date;
-    parent: IComment;
+    parent: IComment | null;
     children: IComment[];
-    board: IBoard;
+    board: IBoard | null;
 }

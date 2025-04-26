@@ -46,6 +46,7 @@ export class BoardRepository {
 
     async save(board: IBoard): Promise<void> {
         await this.boardRepository.save(board);
+        return;
     }
 
     async softDelete(boardId: number): Promise<void> {

@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Comment } from './comment.entity';
+import { CreateCommentDto } from './dtos/req/create-comment.dto';
 import { IComment } from './interfaces/comment.interface';
 
 export class CommentRepository {
@@ -9,8 +10,15 @@ export class CommentRepository {
         private readonly commentRepository: Repository<IComment>,
     ) {}
 
-    create(): IComment {
-        return this.commentRepository.create();
+    create(createCommentDto: CreateCommentDto): IComment {
+        return this.commentRepository.create(createCommentDto);
+    }
+
+    async findOneById(commentId: number): Promise<IComment | null> {
+        return await this.commentRepository
+            .createQueryBuilder()
+            .where('id = :commentId', { commentId })
+            .getOne();
     }
 
     async findMany(
@@ -24,7 +32,8 @@ export class CommentRepository {
             .getManyAndCount();
     }
 
-    async save(comment: IComment): Promise<IComment> {
-        return await this.commentRepository.save(comment);
+    async save(comment: IComment): Promise<void> {
+        await this.commentRepository.save(comment);
+        return;
     }
 }

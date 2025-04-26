@@ -29,12 +29,12 @@ export class Comment implements IComment {
         onDelete: 'CASCADE',
     })
     @JoinColumn()
-    parent: Comment;
+    parent: Comment | null;
 
     @OneToMany(() => Comment, (comment) => comment.parent)
     children: Comment[];
 
     @ManyToOne(() => Board, (board) => board.comments)
     @JoinColumn()
-    board: Board;
+    board: Board | null;
 }
