@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
-@Controller('notification')
+@Controller('notifications')
 export class NotificationController {}

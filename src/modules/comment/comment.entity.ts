@@ -8,9 +8,10 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Board } from '../board/board.entity';
+import { IComment } from './interfaces/comment.interface';
 
 @Entity({ name: 'Comments' })
-export class Comment {
+export class Comment implements IComment {
     @PrimaryGeneratedColumn()
     id: number;
 

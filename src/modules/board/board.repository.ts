@@ -32,7 +32,7 @@ export class BoardRepository {
         }
 
         return await query
-            .skip(page * perPage)
+            .skip((page - 1) * perPage)
             .take(perPage)
             .getManyAndCount();
     }

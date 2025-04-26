@@ -15,7 +15,7 @@ import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
 import { UpdateBoardDto } from './dtos/req/update-board.req.dto';
 import { GetBoardListResDto } from './dtos/res/get-board-list.res.dto';
 
-@Controller('board')
+@Controller('boards')
 export class BoardController {
     constructor(private readonly boardService: BoardService) {}
 
