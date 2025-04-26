@@ -1,4 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { NotificationRepository } from './notification.repository';
 
 @Injectable()
-export class NotificationService {}
+export class NotificationService {
+    constructor(
+        private readonly notificationRepository: NotificationRepository,
+    ) {}
+
+    async notifyIfMatched(text: string): Promise<void> {
+        const matched = await this.notificationRepository.findManyInText(text);
+        if (matched.length > 0) {
+            for (const { authorName, keyword } of matched) {
+                this.send(authorName);
+                console.log(
+                    `${keyword}에 대한 알림이 ${authorName}에게 발송되었습니다.`,
+                );
+            }
+        }
+    }
+
+    private send(recipient: string): string {
+        return `${recipient}에게 키워드 알림 발송 완료`;
+    }
+}

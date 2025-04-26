@@ -7,7 +7,9 @@ import {
     Patch,
     Post,
 } from '@nestjs/common';
+import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
 import { ApiResponseDto } from 'src/common/dto/api-response.dto';
+import { KeywordType } from 'src/common/enum';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
 import { DeleteBoardDto } from './dtos/req/delete-board.req.dto';
@@ -20,6 +22,7 @@ export class BoardController {
     constructor(private readonly boardService: BoardService) {}
 
     @Post()
+    @NotifyKeywords(KeywordType.BOARD)
     async createBoard(
         @Body() createBoardDto: CreateBoardDto,
     ): Promise<ApiResponseDto<void>> {

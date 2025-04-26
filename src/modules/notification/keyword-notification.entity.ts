@@ -4,9 +4,10 @@ import {
     Entity,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IKeywordNotification } from './interfaces/keyword-notification.interface';
 
 @Entity({ name: 'Keyword_Notifications' })
-export class KeywordNotification {
+export class KeywordNotification implements IKeywordNotification {
     @PrimaryGeneratedColumn()
     id: number;
 
