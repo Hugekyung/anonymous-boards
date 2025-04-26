@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+    anonymous-board-db:
+        container_name: mysql-anonymous-board
+        image: mysql:8.0
+        restart: unless-stopped
+        ports:
+            - '3306:3306'
+        env_file:
+            - prod.env
+        volumes:
+            - anonymous-board-db-data:/var/lib/mysql
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - nest-anonymous-board
+
+volumes:
+    anonymous-board-db-data:
+
+networks:
+    nest-anonymous-board:
