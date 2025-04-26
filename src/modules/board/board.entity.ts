@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Comment } from '../comment/comment.entity';
 
-@Entity()
+@Entity({ name: 'Boards' })
 export class Board {
     @PrimaryGeneratedColumn()
     id: number;
