@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardController } from './controllers/board.controller';
-import { Board } from './entities/board.entity';
-import { BoardFactory } from './factories/board.factory';
-import { BoardRepository } from './repositories/board.repository';
-import { BoardService } from './services/board.service';
+import { BoardController } from './board.controller';
+import { Board } from './board.entity';
+import { BoardFactory } from './board.factory';
+import { BoardRepository } from './board.repository';
+import { BoardService } from './board.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Board])],

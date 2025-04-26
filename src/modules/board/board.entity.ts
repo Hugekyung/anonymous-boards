@@ -7,8 +7,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { Comment } from '../../comment/comment.entity';
-import { IBoard } from '../interfaces/board.interface';
+import { Comment } from '../comment/comment.entity';
+import { IBoard } from './interfaces/board.interface';
 
 @Entity({ name: 'Boards' })
 export class Board implements IBoard {

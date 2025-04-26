@@ -1,9 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateBoardDto } from '../dtos/req/create-board.req.dto';
-import { GetBoardListDto } from '../dtos/req/get-board-list.req.dto';
-import { Board } from '../entities/board.entity';
-import { IBoard } from '../interfaces/board.interface';
+import { Board } from './board.entity';
+import { CreateBoardDto } from './dtos/req/create-board.req.dto';
+import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
+import { IBoard } from './interfaces/board.interface';
 
 export class BoardRepository {
     constructor(
@@ -35,6 +35,13 @@ export class BoardRepository {
             .skip(page * perPage)
             .take(perPage)
             .getManyAndCount();
+    }
+
+    async findOneById(boardId: number): Promise<IBoard | null> {
+        return await this.boardRepository
+            .createQueryBuilder()
+            .where('id = :id', { id: boardId })
+            .getOne();
     }
 
     async save(board: IBoard): Promise<void> {

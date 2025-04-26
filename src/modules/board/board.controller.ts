@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiResponseDto } from 'src/common/dto/api-response.dto';
-import { CreateBoardDto } from '../dtos/req/create-board.req.dto';
-import { GetBoardListDto } from '../dtos/req/get-board-list.req.dto';
-import { UpdateBoardDto } from '../dtos/req/update-board.req.dto';
-import { GetBoardListResDto } from '../dtos/res/get-board-list.res.dto';
-import { BoardService } from '../services/board.service';
+import { BoardService } from './board.service';
+import { CreateBoardDto } from './dtos/req/create-board.req.dto';
+import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
+import { UpdateBoardDto } from './dtos/req/update-board.req.dto';
+import { GetBoardListResDto } from './dtos/res/get-board-list.res.dto';
 
 @Controller('board')
 export class BoardController {
@@ -33,6 +33,8 @@ export class BoardController {
         @Param('boardId') boardId: number,
         @Body() updateBoardDto: UpdateBoardDto,
     ) {
-        return await this.boardService.updateBoard(boardId, updateBoardDto);
+        return ApiResponseDto.ok(
+            await this.boardService.updateBoard(boardId, updateBoardDto),
+        );
     }
 }
