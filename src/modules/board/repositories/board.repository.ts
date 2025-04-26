@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateBoardDto } from '../dtos/create-board.dto';
+import { GetBoardListDto } from '../dtos/get-board-list.dto';
 import { Board } from '../entities/board.entity';
 import { IBoard } from '../interfaces/board.interface';
 
@@ -12,6 +13,28 @@ export class BoardRepository {
 
     create(createBoardDto: CreateBoardDto): IBoard {
         return this.boardRepository.create(createBoardDto);
+    }
+
+    async findall(
+        getBoardListDto: GetBoardListDto,
+    ): Promise<[IBoard[], number]> {
+        const { page, perPage } = getBoardListDto;
+        const query = this.boardRepository.createQueryBuilder();
+
+        if (getBoardListDto.title) {
+            query.andWhere('title LIKE :title', {
+                title: `%${getBoardListDto.title}%`,
+            });
+        } else {
+            query.andWhere('authorName = :authorName', {
+                authorName: getBoardListDto.authorName,
+            });
+        }
+
+        return await query
+            .skip(page * perPage)
+            .take(perPage)
+            .getManyAndCount();
     }
 
     async save(board: IBoard): Promise<IBoard> {
