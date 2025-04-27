@@ -24,17 +24,36 @@ export class Comment implements IComment {
     @CreateDateColumn({ type: 'timestamp' })
     createdAt: Date;
 
+    @Column({
+        name: 'parentId',
+        comment: '댓글 부모 ID',
+        nullable: true,
+        type: 'int',
+    })
+    parentId: number;
+
     @ManyToOne(() => Comment, (comment) => comment.children, {
         nullable: true,
         onDelete: 'CASCADE',
     })
-    @JoinColumn()
+    @JoinColumn({ name: 'parentId', referencedColumnName: 'id' })
     parent: Comment | null;
 
     @OneToMany(() => Comment, (comment) => comment.parent)
     children: Comment[];
 
-    @ManyToOne(() => Board, (board) => board.comments)
-    @JoinColumn()
+    @Column({
+        name: 'boardId',
+        comment: '게시물 ID',
+        nullable: true,
+        type: 'int',
+    })
+    boardId: number;
+
+    @ManyToOne(() => Board, (board) => board.comments, {
+        nullable: true,
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'boardId', referencedColumnName: 'id' })
     board: Board | null;
 }

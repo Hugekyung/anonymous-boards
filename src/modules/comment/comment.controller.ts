@@ -4,7 +4,7 @@ import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator'
 import { KeywordType } from 'src/common/enum';
 import { ApiResponseDto } from '../../common/dto/api-response.dto';
 import { CommentService } from './comment.service';
-import { CreateCommentDto } from './dtos/req/create-comment.dto';
+import { CreateCommentReqDto } from './dtos/req/create-comment.dto';
 import { GetCommentListResDto } from './dtos/res/get-comment-list.res.dto';
 
 @ApiTags('댓글')
@@ -15,10 +15,10 @@ export class CommentController {
     @Post()
     @NotifyKeywords(KeywordType.COMMENT)
     async createComment(
-        @Body() createCommentDto: CreateCommentDto,
+        @Body() createCommentReqDto: CreateCommentReqDto,
     ): Promise<ApiResponseDto<void>> {
         return ApiResponseDto.ok(
-            await this.commentService.createComment(createCommentDto),
+            await this.commentService.createComment(createCommentReqDto),
         );
     }
 

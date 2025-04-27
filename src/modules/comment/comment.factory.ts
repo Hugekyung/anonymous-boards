@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { BoardRepository } from '../board/board.repository';
 import { IBoard } from '../board/interfaces/board.interface';
 import { CommentRepository } from './comment.repository';
-import { CreateCommentDto } from './dtos/req/create-comment.dto';
+import { CreateCommentReqDto } from './dtos/req/create-comment.dto';
 import { IComment } from './interfaces/comment.interface';
 
 @Injectable()
@@ -12,31 +16,36 @@ export class CommentFactory {
         private readonly commentRepository: CommentRepository,
     ) {}
 
-    async create(createCommentDto: CreateCommentDto): Promise<IComment> {
+    async create(createCommentReqDto: CreateCommentReqDto): Promise<IComment> {
         let board: IBoard | null = null;
         let comment: IComment | null = null;
 
-        if (createCommentDto.boardId) {
+        if (createCommentReqDto.boardId) {
             board = await this.boardRepository.findOneById(
-                createCommentDto.boardId,
+                createCommentReqDto.boardId,
             );
             if (!board) {
                 throw new NotFoundException('해당 게시글이 없습니다.');
             }
-        } else if (createCommentDto.commentId) {
+        } else if (createCommentReqDto.commentId) {
             comment = await this.commentRepository.findOneById(
-                createCommentDto.commentId,
+                createCommentReqDto.commentId,
             );
             if (!comment) {
-                throw new NotFoundException('해당 댓글이 없습니다.');
+                throw new BadRequestException('해당 댓글이 없습니다.');
+            }
+            if (comment.parentId) {
+                throw new BadRequestException(
+                    '댓글의 댓글까지만 작성할 수 있습니다.',
+                );
             }
         }
 
         const newComment: IComment = this.commentRepository.create({
-            content: createCommentDto.content,
-            authorName: createCommentDto.authorName,
+            content: createCommentReqDto.content,
+            authorName: createCommentReqDto.authorName,
             board: board ?? null,
-            comment: comment ?? null,
+            parent: comment ?? null,
         });
 
         return newComment;

@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { IBoard } from 'src/modules/board/interfaces/board.interface';
 import { IComment } from '../../interfaces/comment.interface';
 
-export class CreateCommentDto {
+export class CreateCommentReqDto {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ type: 'string', required: true, description: '댓글 내용' })
@@ -31,7 +31,9 @@ export class CreateCommentDto {
         description: '댓글 일련번호',
     })
     commentId?: number;
+}
 
+export class CreateCommentDto extends CreateCommentReqDto {
     @IsOptional()
     @ApiPropertyOptional({
         type: 'number',
@@ -46,5 +48,5 @@ export class CreateCommentDto {
         required: false,
         description: '댓글 객체',
     })
-    comment?: IComment | null;
+    parent?: IComment | null;
 }

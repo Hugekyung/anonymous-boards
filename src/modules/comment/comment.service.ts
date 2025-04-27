@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommentFactory } from './comment.factory';
 import { CommentRepository } from './comment.repository';
-import { CreateCommentDto } from './dtos/req/create-comment.dto';
+import { CreateCommentReqDto } from './dtos/req/create-comment.dto';
 import { GetCommentListResDto } from './dtos/res/get-comment-list.res.dto';
 import { IComment } from './interfaces/comment.interface';
 
@@ -12,9 +12,11 @@ export class CommentService {
         private readonly commentRepository: CommentRepository,
     ) {}
 
-    async createComment(createCommentDto: CreateCommentDto): Promise<void> {
+    async createComment(
+        createCommentReqDto: CreateCommentReqDto,
+    ): Promise<void> {
         const comment: IComment =
-            await this.commentFactory.create(createCommentDto);
+            await this.commentFactory.create(createCommentReqDto);
         await this.commentRepository.save(comment);
         return;
     }
