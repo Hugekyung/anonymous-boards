@@ -34,18 +34,11 @@ export class BoardService {
         boardId: number,
         updateBoardDto: UpdateBoardDto,
     ): Promise<void> {
-        const board = await this.boardRepository.findOneById(boardId);
-        if (!board) {
-            new BadRequestException('게시글이 존재하지 않습니다.');
-            return;
-        }
+        const board = await this.checkExistBoard(boardId);
         const hashedPassword: string = await PasswordUtil.generateHash(
             updateBoardDto.password,
         );
-        if (await PasswordUtil.verify(board.password, hashedPassword)) {
-            new BadRequestException('비밀번호가 일치하지 않습니다.');
-            return;
-        }
+        await this.verifyPassword(board.password, hashedPassword);
         const updatedBoard = await BoardUpdater.apply(board, updateBoardDto);
         return await this.boardRepository.save(updatedBoard);
     }
@@ -54,18 +47,30 @@ export class BoardService {
         boardId: number,
         deleteBoardDto: DeleteBoardDto,
     ): Promise<void> {
-        const board = await this.boardRepository.findOneById(boardId);
-        if (!board) {
-            new BadRequestException('게시글이 존재하지 않습니다.');
-            return;
-        }
+        const board = await this.checkExistBoard(boardId);
         const hashedPassword: string = await PasswordUtil.generateHash(
             deleteBoardDto.password,
         );
-        if (await PasswordUtil.verify(board.password, hashedPassword)) {
-            new BadRequestException('비밀번호가 일치하지 않습니다.');
-            return;
-        }
+        await this.verifyPassword(board.password, hashedPassword);
         return await this.boardRepository.softDelete(boardId);
+    }
+
+    private async checkExistBoard(boardId: number): Promise<IBoard> {
+        const board = await this.boardRepository.findOneById(boardId);
+        if (!board) {
+            throw new BadRequestException('게시글이 존재하지 않습니다.');
+        }
+
+        return board;
+    }
+
+    private async verifyPassword(
+        password: string,
+        hashedPassword: string,
+    ): Promise<void> {
+        if (await PasswordUtil.verify(password, hashedPassword)) {
+            throw new BadRequestException('비밀번호가 일치하지 않습니다.');
+        }
+        return;
     }
 }
