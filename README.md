@@ -46,7 +46,7 @@ http://localhost:3030/anonymous_board_swagger#/
 ```
 src/
 ├─ common/
-│   ├─ database/        # TypeOrmModule, init.sql
+│   ├─ database/        # TypeOrmModule, init.sql(테이블 생성 DDL 스크립트)
 │   ├─ decorators/      # @NotifyKeywords()
 │   ├─ interceptors/    # NotifyKeywordsInterceptor
 │   └─ dto/             # ApiResponseDto, PaginationDto
