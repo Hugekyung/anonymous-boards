@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { IKeywordNotification } from './interfaces/keyword-notification.interface';
 import { NotificationRepository } from './notification.repository';
 
@@ -14,8 +14,8 @@ export class NotificationService {
         if (matched.length > 0) {
             for (const { authorName, keyword } of matched) {
                 this.send(authorName);
-                console.log(
-                    `${keyword}에 대한 알림이 ${authorName}에게 발송되었습니다.`,
+                Logger.log(
+                    `[${keyword}] 키워드에 대한 알림이 [${authorName}] 에게 발송되었습니다.`,
                 );
             }
         }

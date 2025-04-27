@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CommentFactory } from './comment.factory';
 import { CommentRepository } from './comment.repository';
 import { CreateCommentReqDto } from './dtos/req/create-comment.dto';
@@ -22,13 +23,10 @@ export class CommentService {
     }
 
     async getComments(
-        page: number,
-        perPage: number,
+        paginationDto: PaginationDto,
     ): Promise<GetCommentListResDto> {
-        const [comments, counts] = await this.commentRepository.findMany(
-            page,
-            perPage,
-        );
+        const [comments, counts] =
+            await this.commentRepository.findMany(paginationDto);
         return new GetCommentListResDto(comments, counts);
     }
 }

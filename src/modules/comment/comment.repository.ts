@@ -1,4 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { Repository } from 'typeorm';
 import { Comment } from './comment.entity';
 import { CreateCommentDto } from './dtos/req/create-comment.dto';
@@ -22,9 +23,9 @@ export class CommentRepository {
     }
 
     async findMany(
-        page: number,
-        perPage: number,
+        paginationDto: PaginationDto,
     ): Promise<[IComment[], number]> {
+        const { page, perPage } = paginationDto;
         return await this.commentRepository
             .createQueryBuilder()
             .skip((page - 1) * perPage)

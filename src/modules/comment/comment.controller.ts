@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { KeywordType } from 'src/common/enum';
 import { ApiResponseDto } from '../../common/dto/api-response.dto';
 import { CommentService } from './comment.service';
@@ -24,11 +25,10 @@ export class CommentController {
 
     @Get()
     async getComments(
-        @Query() page: number,
-        @Query() perPage: number,
+        @Query() paginationDto: PaginationDto,
     ): Promise<ApiResponseDto<GetCommentListResDto>> {
         return ApiResponseDto.ok(
-            await this.commentService.getComments(page, perPage),
+            await this.commentService.getComments(paginationDto),
         );
     }
 }
