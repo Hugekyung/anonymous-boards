@@ -12,13 +12,13 @@ import { SwaggerConfig } from './common/utils/swagger-builder.utils';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     const config = app.get<ConfigService>(ConfigService);
-    SwaggerConfig.swaggerBuilder(app, config);
 
+    SwaggerConfig.swaggerBuilder(app, config);
     app.useGlobalPipes(
         new ValidationPipe({
-            transform: true, // * mapping class로 변환을 허용한다.
+            transform: true,
             transformOptions: {
-                enableImplicitConversion: true, // * 암묵적으로 타입을 변환 시켜준다.
+                enableImplicitConversion: true,
             },
             exceptionFactory: (errors: ValidationError[]) =>
                 new BadRequestException({

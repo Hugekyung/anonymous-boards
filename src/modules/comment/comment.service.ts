@@ -27,6 +27,6 @@ export class CommentService {
             page,
             perPage,
         );
-        return { resultCode: 1, data: { comments, counts } };
+        return new GetCommentListResDto(comments, counts);
     }
 }

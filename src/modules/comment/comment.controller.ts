@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
 import { KeywordType } from 'src/common/enum';
 import { ApiResponseDto } from '../../common/dto/api-response.dto';
@@ -6,6 +7,7 @@ import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dtos/req/create-comment.dto';
 import { GetCommentListResDto } from './dtos/res/get-comment-list.res.dto';
 
+@ApiTags('댓글')
 @Controller('comments')
 export class CommentController {
     constructor(private readonly commentService: CommentService) {}
@@ -13,7 +15,7 @@ export class CommentController {
     @Post()
     @NotifyKeywords(KeywordType.COMMENT)
     async createComment(
-        createCommentDto: CreateCommentDto,
+        @Body() createCommentDto: CreateCommentDto,
     ): Promise<ApiResponseDto<void>> {
         return ApiResponseDto.ok(
             await this.commentService.createComment(createCommentDto),

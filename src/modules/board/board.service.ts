@@ -27,7 +27,7 @@ export class BoardService {
     ): Promise<GetBoardListResDto> {
         const [boards, counts] =
             await this.boardRepository.findall(getBoardListDto);
-        return { resultCode: 1, data: { boards, counts } };
+        return new GetBoardListResDto(boards, counts);
     }
 
     async updateBoard(

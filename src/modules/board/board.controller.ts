@@ -4,9 +4,12 @@ import {
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
+    Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
 import { ApiResponseDto } from 'src/common/dto/api-response.dto';
 import { KeywordType } from 'src/common/enum';
@@ -17,6 +20,7 @@ import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
 import { UpdateBoardDto } from './dtos/req/update-board.req.dto';
 import { GetBoardListResDto } from './dtos/res/get-board-list.res.dto';
 
+@ApiTags('게시판')
 @Controller('boards')
 export class BoardController {
     constructor(private readonly boardService: BoardService) {}
@@ -33,7 +37,7 @@ export class BoardController {
 
     @Get()
     async getBoards(
-        @Body() getBoardListDto: GetBoardListDto,
+        @Query() getBoardListDto: GetBoardListDto,
     ): Promise<ApiResponseDto<GetBoardListResDto>> {
         return ApiResponseDto.ok(
             await this.boardService.getBoards(getBoardListDto),
@@ -42,7 +46,7 @@ export class BoardController {
 
     @Patch(':boardId')
     async updateBoard(
-        @Param('boardId') boardId: number,
+        @Param('boardId', ParseIntPipe) boardId: number,
         @Body() updateBoardDto: UpdateBoardDto,
     ): Promise<ApiResponseDto<void | Error>> {
         return ApiResponseDto.ok(
@@ -52,7 +56,7 @@ export class BoardController {
 
     @Delete(':boardId')
     async deleteBoard(
-        @Param('boardId') boardId: number,
+        @Param('boardId', ParseIntPipe) boardId: number,
         @Body() deleteBoardDto: DeleteBoardDto,
     ): Promise<ApiResponseDto<void | Error>> {
         return ApiResponseDto.ok(

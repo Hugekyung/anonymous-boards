@@ -1,4 +1,3 @@
-// src/common/utils/password.util.ts
 import { compare, hash } from 'bcrypt';
 
 export class PasswordUtil {

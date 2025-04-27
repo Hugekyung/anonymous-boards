@@ -25,7 +25,7 @@ export class BoardRepository {
             query.andWhere('title LIKE :title', {
                 title: `%${getBoardListDto.title}%`,
             });
-        } else {
+        } else if (getBoardListDto.authorName) {
             query.andWhere('authorName = :authorName', {
                 authorName: getBoardListDto.authorName,
             });

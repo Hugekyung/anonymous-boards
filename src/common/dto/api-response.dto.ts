@@ -16,8 +16,8 @@ export class ApiResponseDto<T> {
         this.errorMessage = errorMessage;
     }
 
-    static ok<U>(data: U, message?: string): ApiResponseDto<U> {
-        return new ApiResponseDto<U>(1, data, message);
+    static ok<U>(data: U): ApiResponseDto<U> {
+        return new ApiResponseDto<U>(1, data);
     }
 
     // static fail<U>(message: string, data?: U): ApiResponseDto<U> {

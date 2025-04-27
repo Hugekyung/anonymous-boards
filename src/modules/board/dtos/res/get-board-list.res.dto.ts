@@ -1,15 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IBoard } from '../../interfaces/board.interface';
 
-export class GetBoardListDto {
-    boards: IBoard[];
-    counts: number;
-}
-
 export class GetBoardListResDto {
-    @ApiProperty({ default: 1 })
-    resultCode: number;
+    private readonly boards: IBoard[];
+    private readonly counts: number;
 
-    @ApiProperty({ type: GetBoardListDto })
-    data: GetBoardListDto;
+    constructor(boards: IBoard[], counts: number) {
+        this.boards = boards;
+        this.counts = counts;
+    }
 }

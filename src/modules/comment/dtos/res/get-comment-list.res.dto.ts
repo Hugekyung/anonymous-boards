@@ -1,15 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IComment } from '../../interfaces/comment.interface';
 
-export class GetCommentListDto {
-    comments: IComment[];
-    counts: number;
-}
-
 export class GetCommentListResDto {
-    @ApiProperty({ default: 1 })
-    resultCode: number;
+    private readonly comments: IComment[];
+    private readonly counts: number;
 
-    @ApiProperty({ type: GetCommentListDto })
-    data: GetCommentListDto;
+    constructor(comments: IComment[], counts: number) {
+        this.comments = comments;
+        this.counts = counts;
+    }
 }
