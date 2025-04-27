@@ -9,9 +9,9 @@ import {
     Post,
     Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
-import { ApiResponseDto } from 'src/common/dto/api-response.dto';
+import { ApiResponseDto, CommonResDto } from 'src/common/dto/api-response.dto';
 import { KeywordType } from 'src/common/enum';
 import { BoardService } from './board.service';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
@@ -27,6 +27,12 @@ export class BoardController {
 
     @Post()
     @NotifyKeywords(KeywordType.BOARD)
+    @ApiOperation({ summary: '게시물 생성' })
+    @ApiResponse({
+        status: 200,
+        description: '게시물 생성 성공',
+        type: CommonResDto,
+    })
     async createBoard(
         @Body() createBoardDto: CreateBoardDto,
     ): Promise<ApiResponseDto<void>> {
@@ -36,6 +42,12 @@ export class BoardController {
     }
 
     @Get()
+    @ApiOperation({ summary: '게시물 목록 조회' })
+    @ApiResponse({
+        status: 200,
+        description: '게시물 목록 조회 성공',
+        type: ApiResponseDto<GetBoardListResDto>,
+    })
     async getBoards(
         @Query() getBoardListDto: GetBoardListDto,
     ): Promise<ApiResponseDto<GetBoardListResDto>> {
@@ -45,20 +57,32 @@ export class BoardController {
     }
 
     @Patch(':boardId')
+    @ApiOperation({ summary: '게시물 수정' })
+    @ApiResponse({
+        status: 200,
+        description: '게시물 수정 성공',
+        type: CommonResDto,
+    })
     async updateBoard(
         @Param('boardId', ParseIntPipe) boardId: number,
         @Body() updateBoardDto: UpdateBoardDto,
-    ): Promise<ApiResponseDto<void | Error>> {
+    ): Promise<ApiResponseDto<void>> {
         return ApiResponseDto.ok(
             await this.boardService.updateBoard(boardId, updateBoardDto),
         );
     }
 
     @Delete(':boardId')
+    @ApiOperation({ summary: '게시물 삭제(softDelete)' })
+    @ApiResponse({
+        status: 200,
+        description: '게시물 삭제 성공',
+        type: CommonResDto,
+    })
     async deleteBoard(
         @Param('boardId', ParseIntPipe) boardId: number,
         @Body() deleteBoardDto: DeleteBoardDto,
-    ): Promise<ApiResponseDto<void | Error>> {
+    ): Promise<ApiResponseDto<void>> {
         return ApiResponseDto.ok(
             await this.boardService.deleteBoard(boardId, deleteBoardDto),
         );

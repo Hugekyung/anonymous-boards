@@ -19,8 +19,9 @@ export class ApiResponseDto<T> {
     static ok<U>(data: U): ApiResponseDto<U> {
         return new ApiResponseDto<U>(1, data);
     }
+}
 
-    // static fail<U>(message: string, data?: U): ApiResponseDto<U> {
-    //     return new ApiResponseDto<U>(false, data, message);
-    // }
+export class CommonResDto {
+    @ApiProperty({ default: 1 })
+    resultCode: number;
 }

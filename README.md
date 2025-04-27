@@ -35,6 +35,12 @@ POST /comments - 댓글 작성 API
 > yarn && yarn start:dev
 ```
 
+- Swagger 접근 주소
+
+```
+http://localhost:3030/anonymous_board_swagger#/
+```
+
 ### `프로젝트 디렉터리`
 
 ```

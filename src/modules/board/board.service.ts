@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PasswordUtil } from 'src/common/utils/password.utils';
 import { BoardFactory } from './board.factory';
 import { BoardRepository } from './board.repository';
@@ -33,16 +33,18 @@ export class BoardService {
     async updateBoard(
         boardId: number,
         updateBoardDto: UpdateBoardDto,
-    ): Promise<void | Error> {
+    ): Promise<void> {
         const board = await this.boardRepository.findOneById(boardId);
         if (!board) {
-            return new Error('게시글이 존재하지 않습니다.');
+            new BadRequestException('게시글이 존재하지 않습니다.');
+            return;
         }
         const hashedPassword: string = await PasswordUtil.generateHash(
             updateBoardDto.password,
         );
         if (await PasswordUtil.verify(board.password, hashedPassword)) {
-            return new Error('비밀번호가 일치하지 않습니다.');
+            new BadRequestException('비밀번호가 일치하지 않습니다.');
+            return;
         }
         const updatedBoard = await BoardUpdater.apply(board, updateBoardDto);
         return await this.boardRepository.save(updatedBoard);
@@ -51,16 +53,18 @@ export class BoardService {
     async deleteBoard(
         boardId: number,
         deleteBoardDto: DeleteBoardDto,
-    ): Promise<void | Error> {
+    ): Promise<void> {
         const board = await this.boardRepository.findOneById(boardId);
         if (!board) {
-            return new Error('게시글이 존재하지 않습니다.');
+            new BadRequestException('게시글이 존재하지 않습니다.');
+            return;
         }
         const hashedPassword: string = await PasswordUtil.generateHash(
             deleteBoardDto.password,
         );
         if (await PasswordUtil.verify(board.password, hashedPassword)) {
-            return new Error('비밀번호가 일치하지 않습니다.');
+            new BadRequestException('비밀번호가 일치하지 않습니다.');
+            return;
         }
         return await this.boardRepository.softDelete(boardId);
     }
