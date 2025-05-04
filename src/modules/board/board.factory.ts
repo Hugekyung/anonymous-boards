@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PasswordUtil } from 'src/common/utils/password.utils';
+import { PasswordUtil } from '../../common/utils/password.utils';
 import { BoardRepository } from './board.repository';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
 import { IBoard } from './interfaces/board.interface';

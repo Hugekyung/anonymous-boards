@@ -33,7 +33,7 @@ export class ApiResponseDto<T> {
     // }
 }
 
-// export class CommonResDto {
-//     @ApiProperty({ default: 1 })
-//     resultCode: number;
-// }
+export class CommonResDto {
+    @ApiProperty({ default: 1 })
+    resultCode: number;
+}

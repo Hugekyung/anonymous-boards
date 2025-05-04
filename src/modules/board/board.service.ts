@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PasswordUtil } from 'src/common/utils/password.utils';
+import { PasswordUtil } from '../../common/utils/password.utils';
 import { BoardFactory } from './board.factory';
 import { BoardRepository } from './board.repository';
 import { BoardUpdater } from './board.updater';
