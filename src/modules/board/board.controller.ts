@@ -13,17 +13,17 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NotifyKeywords } from 'src/common/decorators/notify-keywords.decorator';
 import { ApiResponseDto, CommonResDto } from 'src/common/dto/api-response.dto';
 import { KeywordType } from 'src/common/enum';
-import { BoardService } from './board.service';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
 import { DeleteBoardDto } from './dtos/req/delete-board.req.dto';
 import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
 import { UpdateBoardDto } from './dtos/req/update-board.req.dto';
 import { GetBoardListResDto } from './dtos/res/get-board-list.res.dto';
+import { IBoardService } from './interfaces/board.service.interface';
 
 @ApiTags('게시판')
 @Controller('boards')
 export class BoardController {
-    constructor(private readonly boardService: BoardService) {}
+    constructor(private readonly boardService: IBoardService) {}
 
     @Post()
     @NotifyKeywords(KeywordType.BOARD)

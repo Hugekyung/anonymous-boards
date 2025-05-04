@@ -1,20 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PasswordUtil } from '../../common/utils/password.utils';
-import { BoardFactory } from './board.factory';
-import { BoardRepository } from './board.repository';
 import { BoardUpdater } from './board.updater';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
 import { DeleteBoardDto } from './dtos/req/delete-board.req.dto';
 import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
 import { UpdateBoardDto } from './dtos/req/update-board.req.dto';
 import { GetBoardListResDto } from './dtos/res/get-board-list.res.dto';
+import { IBoardFactory } from './interfaces/board.factory.interface';
 import { IBoard } from './interfaces/board.interface';
+import { IBoardRepository } from './interfaces/board.repository.interface';
+import { IBoardService } from './interfaces/board.service.interface';
 
 @Injectable()
-export class BoardService {
+export class BoardService implements IBoardService {
     constructor(
-        private readonly boardFactory: BoardFactory,
-        private readonly boardRepository: BoardRepository,
+        private readonly boardFactory: IBoardFactory,
+        private readonly boardRepository: IBoardRepository,
     ) {}
 
     async createBoard(createBoardDto: CreateBoardDto): Promise<void> {

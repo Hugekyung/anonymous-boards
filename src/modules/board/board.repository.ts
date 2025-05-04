@@ -4,8 +4,9 @@ import { Board } from './board.entity';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
 import { GetBoardListDto } from './dtos/req/get-board-list.req.dto';
 import { IBoard } from './interfaces/board.interface';
+import { IBoardRepository } from './interfaces/board.repository.interface';
 
-export class BoardRepository {
+export class BoardRepository implements IBoardRepository {
     constructor(
         @InjectRepository(Board)
         private readonly boardRepository: Repository<IBoard>,
