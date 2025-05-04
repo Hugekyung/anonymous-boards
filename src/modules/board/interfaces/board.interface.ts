@@ -1,4 +1,4 @@
-import { Comment } from '../../comment/comment.entity';
+import { IComment } from 'src/modules/comment/interfaces/comment.interface';
 
 export interface IBoard {
     id: number;
@@ -6,7 +6,7 @@ export interface IBoard {
     content: string;
     authorName: string;
     password: string;
-    comments?: Comment[];
+    comments?: IComment[];
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date | null;
