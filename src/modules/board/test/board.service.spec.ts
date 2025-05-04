@@ -46,19 +46,19 @@ describe('BoardService 🧪', () => {
     });
 
     it('1. createBoard: BoardFactory.create 후 저장 호출 ✅', async () => {
-        const fakeBoard: CreateBoardDto = {
+        const createDto: CreateBoardDto = {
             title: '테스트 제목',
             content: '테스트 내용',
             authorName: '양해찬',
             password: '1234',
         };
-        mockFactory.create!.mockResolvedValue(fakeBoard);
+        mockFactory.create!.mockResolvedValue(createDto);
         mockRepo.save!.mockResolvedValue(undefined);
 
-        await service.createBoard(fakeBoard);
+        await service.createBoard(createDto);
 
-        expect(mockFactory.create).toHaveBeenCalledWith(fakeBoard);
-        expect(mockRepo.save).toHaveBeenCalledWith(fakeBoard);
+        expect(mockFactory.create).toHaveBeenCalledWith(createDto);
+        expect(mockRepo.save).toHaveBeenCalledWith(createDto);
     });
 
     it('2. getBoards: repository 결과가 DTO로 래핑되어 반환되어야 함 ✅', async () => {
@@ -91,16 +91,13 @@ describe('BoardService 🧪', () => {
     });
 
     describe('updateBoard 🚀', () => {
-        const existingBoard: IBoard = {
+        const existingBoard: IBoard = makeFakeBoard({
             id: 1,
             title: 'test title 1',
             content: 'test content 1',
             authorName: 'yang',
             password: '1234',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: null,
-        };
+        });
         const updateBoardDto: UpdateBoardDto = {
             password: '1234',
             title: 'new title',
@@ -148,16 +145,13 @@ describe('BoardService 🧪', () => {
     });
 
     describe('deleteBoard 🌱', () => {
-        const existingBoard: IBoard = {
+        const existingBoard: IBoard = makeFakeBoard({
             id: 1,
             title: 'test title 1',
             content: 'test content 1',
             authorName: 'yang',
             password: '1234',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: null,
-        };
+        });
         const deleteBoardId = 1;
         const deletedBoardDto: DeleteBoardDto = { password: '1234' };
         const deletedBoardDtoWIthWrongPassword: DeleteBoardDto = {
@@ -196,3 +190,17 @@ describe('BoardService 🧪', () => {
         });
     });
 });
+
+function makeFakeBoard(overrides?: Partial<IBoard>): IBoard {
+    return {
+        id: 1,
+        title: '제목',
+        content: '내용',
+        authorName: '작가',
+        password: 'hash',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+        ...overrides,
+    };
+}
