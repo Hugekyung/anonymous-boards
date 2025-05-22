@@ -15,6 +15,7 @@ import { GetBoardListDto } from '../dtos/req/get-board-list.req.dto';
 import { UpdateBoardDto } from '../dtos/req/update-board.req.dto';
 import { GetBoardListResDto } from '../dtos/res/get-board-list.res.dto';
 import { IBoard } from '../interfaces/board.interface';
+import { BoardFixture } from './board.fixture';
 
 type MockType<T> = {
     [P in keyof T]?: jest.Mock;
@@ -51,12 +52,7 @@ describe('BoardService 🧪', () => {
     });
 
     it('1. createBoard: BoardFactory.create 후 저장 호출 ✅', async () => {
-        const createDto: CreateBoardDto = {
-            title: '테스트 제목',
-            content: '테스트 내용',
-            authorName: '양해찬',
-            password: '1234',
-        };
+        const createDto: CreateBoardDto = BoardFixture.createBoard();
         mockFactory.create!.mockResolvedValue(createDto);
         mockRepo.save!.mockResolvedValue(undefined);
 
