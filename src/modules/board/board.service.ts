@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+    BoardFactoryToken,
+    BoardRepositoryToken,
+} from '../../common/constants/token.constants';
 import { PasswordUtil } from '../../common/utils/password.utils';
 import { BoardUpdater } from './board.updater';
 import { CreateBoardDto } from './dtos/req/create-board.req.dto';
@@ -14,7 +18,9 @@ import { IBoardService } from './interfaces/board.service.interface';
 @Injectable()
 export class BoardService implements IBoardService {
     constructor(
+        @Inject(BoardFactoryToken)
         private readonly boardFactory: IBoardFactory,
+        @Inject(BoardRepositoryToken)
         private readonly boardRepository: IBoardRepository,
     ) {}
 

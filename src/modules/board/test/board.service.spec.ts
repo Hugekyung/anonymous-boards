@@ -1,5 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import {
+    BoardFactoryToken,
+    BoardRepositoryToken,
+} from '../../../common/constants/token.constants';
 import { PasswordUtil } from '../../../common/utils/password.utils';
 import { BoardFactory } from '../board.factory';
 import { BoardRepository } from '../board.repository';
@@ -24,6 +28,7 @@ describe('BoardService 🧪', () => {
     beforeEach(async () => {
         mockFactory = { create: jest.fn() };
         mockRepo = {
+            create: jest.fn(),
             save: jest.fn(),
             findall: jest.fn(),
             findOneById: jest.fn(),
@@ -33,8 +38,8 @@ describe('BoardService 🧪', () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 BoardService,
-                { provide: BoardFactory, useValue: mockFactory },
-                { provide: BoardRepository, useValue: mockRepo },
+                { provide: BoardFactoryToken, useValue: mockFactory },
+                { provide: BoardRepositoryToken, useValue: mockRepo },
             ],
         }).compile();
 
@@ -187,6 +192,13 @@ describe('BoardService 🧪', () => {
                     deletedBoardDtoWIthWrongPassword,
                 ),
             ).rejects.toThrow('비밀번호가 일치하지 않습니다.');
+        });
+    });
+
+    describe('checkExistBoard', () => {
+        it('boardId를 파라미터로 요청하면 board를 응답한다', async () => {
+            // when
+            const boardId = 1;
         });
     });
 });
